@@ -21,7 +21,7 @@ App.addProject(testProject2);
 //   TodoElement(false, 'checkbox', 'input', ''),
 // );
 
-const test = Todo(
+const test = new Todo(
   0,
   'Make a todo app',
   'Make a Javascript app that fulfills the requirements for The Odin Project\'s Todo App project.',
@@ -34,6 +34,8 @@ const test = Todo(
 
 
 testProject.addTodo(test);
+
+window.View = View;
 
 
 

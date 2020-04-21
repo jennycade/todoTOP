@@ -98,12 +98,11 @@ form button:hover {
 }
 
 .todo .checkbox {
-  color: rgba(0,0,0,0);
   align-self: center;
   grid-row: 1 / -1; /* TODO: not working. why? */
 }
-.todo .checked {
-  color: rgba(0,0,0,1);
+.todo .unchecked {
+  color: rgba(0,0,0,0);
 }
 
 .todo h2 {

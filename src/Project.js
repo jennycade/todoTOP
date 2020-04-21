@@ -20,23 +20,24 @@ class Project {
   }
   
   addTodo (todo) {
-    // todo.setProject(this);
+    todo.setProject(this);
     this.todos.push(todo);
   }
   removeTodo (todo) {
     // find it in the list
+    let toreturn = false;
     for (let i=0; i<this.todos.length; i++) {
       if (todo === this.todos[i]) {
-        return this.todos.splice(i, 1); // returns the todo, in case it matters
+        toreturn = this.todos.splice(i, 1); // returns the todo, in case it matters
         break;
       }
     }
-    return false; // no matching todo found
+    
+    this.refresh();
+    return toreturn;
   }
 
   refresh () {
-    // View.clearView();
-    // View.loadProject(this);
     View.refreshView(); // TODO: refresh single project
   }
 

@@ -1,42 +1,53 @@
 import Project from "./Project";
 
-const Todo = (id, title, description, dueDate, priority, completed) => {
-  const getId = () => id;
-  const getTitle = () => title;
-  const getDescription = () => description;
-  const getDueDate = () => dueDate;
-  const getPriority = () => priority;
-  const getCompleted = () => completed;
-  const getProject = () => project;
+class Todo {
+  constructor (id, title, description, dueDate, priority, completed, project = null) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.completed = completed;
+    this.project = project;
+  }
+  getId() { returnid; }
+  getTitle() { returntitle; }
+  getDescription() { returndescription; }
+  getDueDate() { returndueDate; }
+  getPriority() { returnpriority; }
+  getCompleted() { returncompleted; }
+  getProject() { returnproject; }
 
-  const setTitle = (newTitle) => {
-    title = newTitle;
+  setTitle(newTitle) {
+    this.title = newTitle;
   }
-  const setDescription = (newDescription) => {
-    description = newDescription;
+  setDescription(newDescription) {
+    this.description = newDescription;
   }
-  const setDueDate = (newDueDate) => {
-    dueDate = newDueDate;
+  setDueDate(newDueDate) {
+    this.dueDate = newDueDate;
   }
-  const setPriority = (newPriority) => {
-    priority = newPriority;
+  setPriority(newPriority) {
+    this.priority = newPriority;
   }
-  const setCompleted = (newCompleted) => {
-    completed = newCompleted;
+  setCompleted(newCompleted) {
+    this.completed = newCompleted;
   }
-  const setProject = (newProject) => {
-    project = newProject;
-  }
-
-  const toggleCompleted = () => {
-    completed = !completed.value;
+  setProject(newProject) {
+    this.project = newProject;
   }
 
-  const deleteSelf = () => {
-    project.removeTodo(this);
+  toggleCompleted() {
+    this.completed = !this.completed;
+    this.project.refresh();
   }
 
-  const render = () => {
+  deleteSelf() {
+    this.project.removeTodo(this);
+    this.project.refresh();
+  }
+
+  render () {
     const container = document.createElement('div');
     container.classList.add('todo');
 
@@ -45,59 +56,58 @@ const Todo = (id, title, description, dueDate, priority, completed) => {
     // completed
     element = document.createElement('button');
     element.classList.add('checkbox');
+    element.classList.add('completed');
     element.textContent = 'v';
-    if (completed) {
-      element.classList.add('checked');
+    if (!this.completed) {
+      element.classList.add('unchecked');
     }
     element.addEventListener('click', () => {
-      toggleCompleted();
+      this.toggleCompleted();
     })
 
     container.appendChild(element);
 
     // delete
     element = document.createElement('button');
+    element.classList.add('checkbox');
+    element.classList.add('delete');
+    element.textContent = 'delete';
+    element.addEventListener('click', () => {
+      this.deleteSelf();
+    });
+    container.appendChild(element);
 
     // title
     element = document.createElement('h2');
-    element.textContent = title;
+    element.textContent = this.title;
 
     container.appendChild(element);
 
     // due date
-    if (dueDate) {
+    if (this.dueDate) {
       element = document.createElement('time');
       element.classList.add('dueDate');
-      element.textContent = dueDate;
+      element.textContent = this.dueDate;
       container.appendChild(element);
     }
     // priority
-    if (priority) {
+    if (this.priority) {
       element = document.createElement('p');
       element.classList.add('priority');
-      element.textContent = priority;
+      element.textContent = this.priority;
       container.appendChild(element);
     }
     // description
-    if (description) {
+    if (this.description) {
       element = document.createElement('p');
       element.classList.add('description');
-      element.textContent = description;
+      element.textContent = this.description;
       container.appendChild(element);
     }
 
 
     return container;
   }
-  
-
-
-  return {
-    getId, getTitle, getDescription, getDueDate, getPriority, getCompleted, getProject,
-    setTitle, setDescription, setDueDate, setPriority, setCompleted, setProject,
-    toggleCompleted,
-    render,
-  };
 }
 
 

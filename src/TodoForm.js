@@ -81,7 +81,7 @@ const TodoAdder = (() => {
 
     // TODO: validate
 
-    const newTodo = Todo(0, title, description, dueDate, priority, false);
+    const newTodo = new Todo(0, title, description, dueDate, priority, false);
     // TODO: make above less horrible. Jesus.
 
     project.addTodo(newTodo);
