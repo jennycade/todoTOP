@@ -1,0 +1,123 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+body {
+  height: 100vh;
+  background: linear-gradient(#ddf0ff, #a9d8ff);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Manrope', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, button {
+  font-family: 'Oswald', sans-serif;
+  font-weight: normal;
+}
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.project {
+  flex: 1 1 400px;
+
+  background: white;
+  border-radius: 5px;
+  margin: 1rem;
+  padding: 0; /* TODO: figure out why this isn't working */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.project > * {
+  margin: 1rem;
+}
+
+
+form {
+  /* width: 100%; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+form input {
+  flex: 1 1 10rem;
+  padding: 0.5rem;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
+}
+
+form button {
+  padding: 0.75rem 1.5rem;
+
+  background: linear-gradient(#6064ff, #3539e6
+  );
+  color: white;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+form button:hover {
+  background: #0004b5;
+}
+
+
+.todo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+
+  grid-gap: 0.5rem;
+  align-items: baseline;
+
+  margin-bottom: 4rem;
+}
+.todo:hover {
+  /* margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem; */
+  /* TODO: get rid of above stupidity and replace parent padding with item margins */
+  background-color: #eee;
+}
+
+
+.todo:last-child {
+  margin-bottom: inherit;
+}
+
+.todo .checkbox {
+  color: rgba(0,0,0,0);
+  align-self: center;
+  grid-row: 1 / -1; /* TODO: not working. why? */
+}
+.todo .checked {
+  color: rgba(0,0,0,1);
+}
+
+.todo h2 {
+  grid-column-end: span 2;
+}
+.todo .description {
+  grid-column-start: 2;
+  grid-column-end: -1;
+
+  font-size: 0.875rem;
+  color: #777777;
+  font-style: italic;
+}
+
+.todo .dueDate, .todo .priority {
+  text-align: right;
+}

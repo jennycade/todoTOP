@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To Do</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <button id="refresh">Refresh Project</button>
+  </body>
+
+
+  <script>
+
+
+const View = (() => {
+  let appDiv;
+  
+  const loadView = () => {
+    appDiv = document.getElementById('app');
+  } 
+
+  const loadNewForm = (project) => {
+    if (!appDiv) { loadView(); }
+    appDiv.appendChild(TodoForm().render(project));
+  }
+
+  const loadEditForm = (todo) => { // TODO: unbreak this
+    if (!appDiv) { loadView(); }
+    appDiv.appendChild(TodoForm(todo).render());
+  }
+
+  const loadProject = (project) => { 
+    if (!appDiv) { loadView(); }
+    // loadNewForm(project);
+    appDiv.appendChild(project.render());
+  }
+
+  const clearView = () => {
+    if (!appDiv) { loadView(); }
+    while (appDiv.firstChild) {
+      appDiv.removeChild(appDiv.lastChild);
+    }
+  }
+
+  return {
+    loadView,
+    loadNewForm,
+    loadEditForm,
+    loadProject,
+    clearView,
+  };
+
+})();
+
+
+
+// const Project = (title) => {
+
+// 	const refresh = () => {
+//     View.clearView();
+//     // View.loadProject(this); // this doesn't work!
+//     console.log(this); // this is Window? What?
+//   }
+// 	const render = () => {
+//   	const container = document.createElement('div');
+//     const header = document.createElement('h1');
+//     header.textContent = title;
+//     container.appendChild(header);
+    
+//     return container;
+//   }
+  
+//   return {
+//   	refresh,
+//     render,
+//   };
+// }
+
+// const testProject = Project('Home');
+
+
+class Project {
+  constructor(title) {
+    this.title = title;
+  }
+  refresh() {
+    View.clearView();
+    View.loadProject(this); // Now it works! So why didn't it work in the factory function?
+  }
+  render() {
+    const container = document.createElement('div');
+    const header = document.createElement('h1');
+    header.textContent = this.title;
+    container.appendChild(header);
+    
+    return container;
+  }
+}
+
+const testProject = new Project('Home');
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  View.loadProject(testProject);
+});
+
+const refreshButton = document.getElementById('refresh');
+refreshButton.addEventListener('click', () => {
+  testProject.refresh();
+});
+
+
+
+
+
+  </script>
+</html>
