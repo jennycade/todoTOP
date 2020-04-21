@@ -4,6 +4,7 @@ import TodoElement from './TodoElement';
 import TodoForm from './TodoForm';
 import View from './View';
 import App from './App';
+import IconInserter from './IconInserter';
 
 // testing
 const testProject = new Project(0, 'Home', 'Around the house', );
@@ -36,6 +37,7 @@ const test = new Todo(
 testProject.addTodo(test);
 
 window.View = View;
+window.IconInserter = IconInserter;
 
 
 

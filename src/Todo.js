@@ -1,4 +1,5 @@
 import Project from "./Project";
+import IconInserter from "./IconInserter";
 
 class Todo {
   constructor (id, title, description, dueDate, priority, completed, project = null) {
@@ -57,7 +58,7 @@ class Todo {
     element = document.createElement('button');
     element.classList.add('checkbox');
     element.classList.add('completed');
-    element.textContent = 'v';
+    element.appendChild(IconInserter.render('done'));
     if (!this.completed) {
       element.classList.add('unchecked');
     }
@@ -71,7 +72,7 @@ class Todo {
     element = document.createElement('button');
     element.classList.add('checkbox');
     element.classList.add('delete');
-    element.textContent = 'delete';
+    element.appendChild(IconInserter.render('delete'));
     element.addEventListener('click', () => {
       this.deleteSelf();
     });
@@ -85,9 +86,14 @@ class Todo {
 
     // due date
     if (this.dueDate) {
-      element = document.createElement('time');
+      element = document.createElement('span');
       element.classList.add('dueDate');
-      element.textContent = this.dueDate;
+      element.appendChild(IconInserter.render('schedule'));
+      
+      const time = document.createElement('time');
+      time.textContent = this.dueDate;
+      element.appendChild(time);
+      
       container.appendChild(element);
     }
     // priority
@@ -117,70 +123,5 @@ class Todo {
 export default Todo;
 
 
-
-
-
-// const Todo = (id, title, description, dueDate, priority, completed) => {
-//   const getId = () => id;
-//   const getTitle = () => title;
-//   const getDescription = () => description;
-//   const getDueDate = () => dueDate;
-//   const getPriority = () => priority;
-//   const getCompleted = () => completed;
-
-//   const setTitle = (newTitle) => {
-//     title = newTitle);
-//   }
-//   const setDescription = (newDescription) => {
-//     description = newDescription);
-//   }
-//   const setDueDate = (newDueDate) => {
-//     dueDate = newDueDate);
-//   }
-//   const setPriority = (newPriority) => {
-//     priority = newPriority);
-//   }
-//   const setCompleted = (newCompleted) => {
-//     completed = newCompleted);
-//   }
-
-//   const toggleCompleted = () => {
-//     completed = !completed.value);
-//   }
-
-//   const render = () => {
-//     const container = document.createElement('div');
-//     container.classList.add('todo');
-    
-//     // completed
-//     container.appendChild(completed.render());
-
-//     // title
-//     container.appendChild(title.render());
-
-//     // description
-//     if (description) {
-//       container.appendChild(description.render());
-//     }
-//     if (dueDate) {
-//       container.appendChild(dueDate.render());
-//     }
-//     if (priority) {
-//       container.appendChild(priority.render());
-//     }
-
-
-//     return container;
-//   }
-  
-
-
-//   return {
-//     getId, getTitle, getDescription, getDueDate, getPriority, getCompleted,
-//     setTitle, setDescription, setDueDate, setPriority, setCompleted,
-//     toggleCompleted,
-//     render,
-//   };
-// }
 
 

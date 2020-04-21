@@ -73,6 +73,9 @@ form button:hover {
   background: #0004b5;
 }
 
+.icon {
+  max-height: 18px;
+}
 
 .todo {
   display: grid;
@@ -101,8 +104,8 @@ form button:hover {
   align-self: center;
   grid-row: 1 / -1; /* TODO: not working. why? */
 }
-.todo .unchecked {
-  color: rgba(0,0,0,0);
+.todo .unchecked > img {
+  opacity: 10%;
 }
 
 .todo h2 {
