@@ -6,17 +6,14 @@ const View = (() => {
   let appDiv;
   
   const loadView = () => {
+    // console.log('Loading view');
     appDiv = document.getElementById('app');
+    // console.log(appDiv);
   } 
 
   const loadNewForm = (project) => {
     if (!appDiv) { loadView(); }
     return TodoForm().render(project);
-  }
-
-  const loadEditForm = (todo) => { // TODO: unbreak this
-    if (!appDiv) { loadView(); }
-    appDiv.appendChild(TodoForm(todo).render());
   }
 
   const loadProject = (project) => { 
@@ -32,7 +29,7 @@ const View = (() => {
 
   const clearView = () => {
     if (!appDiv) { loadView(); }
-    while (appDiv.firstChild) { // appDiv is null?
+    while (appDiv.firstChild) {
       appDiv.removeChild(appDiv.lastChild);
     }
   }
@@ -45,7 +42,6 @@ const View = (() => {
   return {
     loadView,
     loadNewForm,
-    loadEditForm,
     loadProject,
     clearView,
     refreshView,

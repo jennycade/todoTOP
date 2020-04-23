@@ -1,5 +1,6 @@
 import Project from "./Project";
 import IconInserter from "./IconInserter";
+import TodoForm from './TodoForm';
 
 class Todo {
   constructor (id, title, description, dueDate, priority, completed, project = null) {
@@ -10,14 +11,15 @@ class Todo {
     this.priority = priority;
     this.completed = completed;
     this.project = project;
+    this.renderMode = 'display';
   }
-  getId() { returnid; }
-  getTitle() { returntitle; }
-  getDescription() { returndescription; }
-  getDueDate() { returndueDate; }
-  getPriority() { returnpriority; }
-  getCompleted() { returncompleted; }
-  getProject() { returnproject; }
+  getId() { return this.id; }
+  getTitle() { return this.title; }
+  getDescription() { return this.description; }
+  getDueDate() { return this.dueDate; }
+  getPriority() { return this.priority; }
+  getCompleted() { return this.completed; }
+  getProject() { return this.project; }
 
   setTitle(newTitle) {
     this.title = newTitle;
@@ -47,72 +49,95 @@ class Todo {
     this.project.removeTodo(this);
     this.project.refresh();
   }
+  editSelf() {
+    // hacky way: delete and replace with a form
+    // TODO: temporarily hide and replace only when submitted. Also add a cancel button.
+    // tell project to rerender
+    this.renderMode = 'edit'
+    this.project.refresh();
+  }
 
   render () {
-    const container = document.createElement('div');
-    container.classList.add('todo');
 
-    let element;
-    
-    // completed
-    element = document.createElement('button');
-    element.classList.add('checkbox');
-    element.classList.add('completed');
-    element.appendChild(IconInserter.render('done'));
-    if (!this.completed) {
-      element.classList.add('unchecked');
-    }
-    element.addEventListener('click', () => {
-      this.toggleCompleted();
-    })
+    if (this.renderMode === 'edit') {
+      return TodoForm(this).render(this.project);
 
-    container.appendChild(element);
+    } else if (this.renderMode === 'display') {
 
-    // delete
-    element = document.createElement('button');
-    element.classList.add('checkbox');
-    element.classList.add('delete');
-    element.appendChild(IconInserter.render('delete'));
-    element.addEventListener('click', () => {
-      this.deleteSelf();
-    });
-    container.appendChild(element);
+      const container = document.createElement('div');
+      container.classList.add('todo');
 
-    // title
-    element = document.createElement('h2');
-    element.textContent = this.title;
-
-    container.appendChild(element);
-
-    // due date
-    if (this.dueDate) {
-      element = document.createElement('span');
-      element.classList.add('dueDate');
-      element.appendChild(IconInserter.render('schedule'));
+      let element;
       
-      const time = document.createElement('time');
-      time.textContent = this.dueDate;
-      element.appendChild(time);
+      // completed
+      element = document.createElement('button');
+      element.classList.add('checkbox');
+      element.classList.add('completed');
+      element.appendChild(IconInserter.render('done'));
+      if (!this.completed) {
+        element.classList.add('unchecked');
+      }
+      element.addEventListener('click', () => {
+        this.toggleCompleted();
+      })
+
+      container.appendChild(element);
+
+      // delete
+      element = document.createElement('button');
+      element.classList.add('delete');
+      element.appendChild(IconInserter.render('delete'));
+      element.addEventListener('click', () => {
+        this.deleteSelf();
+      });
+      container.appendChild(element);
+
+      // title
+      element = document.createElement('h2');
+      element.textContent = this.title;
+
+      container.appendChild(element);
+
+      // edit
+      element = document.createElement('button');
+      element.classList.add('edit');
+      element.appendChild(IconInserter.render('edit'));
+      element.addEventListener('click', () => {
+        this.editSelf();
+      });
+      container.appendChild(element);
+
+      // due date
+      if (this.dueDate) {
+        element = document.createElement('span');
+        element.classList.add('dueDate');
+        element.appendChild(IconInserter.render('schedule'));
+        
+        const time = document.createElement('time');
+        time.textContent = this.dueDate;
+        element.appendChild(time);
+        
+        container.appendChild(element);
+      }
+      // priority
+      if (this.priority) {
+        element = document.createElement('p');
+        element.classList.add('priority');
+        element.textContent = this.priority;
+        container.appendChild(element);
+      }
+      // description
+      if (this.description) {
+        element = document.createElement('p');
+        element.classList.add('description');
+        element.textContent = this.description;
+        container.appendChild(element);
+      }
       
-      container.appendChild(element);
-    }
-    // priority
-    if (this.priority) {
-      element = document.createElement('p');
-      element.classList.add('priority');
-      element.textContent = this.priority;
-      container.appendChild(element);
-    }
-    // description
-    if (this.description) {
-      element = document.createElement('p');
-      element.classList.add('description');
-      element.textContent = this.description;
-      container.appendChild(element);
-    }
 
 
-    return container;
+      return container;
+    }
   }
 }
 

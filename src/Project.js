@@ -22,6 +22,8 @@ class Project {
   addTodo (todo) {
     todo.setProject(this);
     this.todos.push(todo);
+    // this.refresh(); // was this originally here or not?
+
   }
   removeTodo (todo) {
     // find it in the list
@@ -33,7 +35,7 @@ class Project {
       }
     }
     
-    this.refresh();
+    // this.refresh();
     return toreturn;
   }
 
@@ -49,6 +51,10 @@ class Project {
     const header = document.createElement('h1');
     header.textContent = this.title;
     container.appendChild(header);
+
+    const todoCount = document.createElement('span');
+    todoCount.textContent = `${this.todos.length.toString()} item${(this.todos.length !== 1) ? 's' : ''}`;
+    container.appendChild(todoCount);
 
     // add each todo
     for (let i=0; i<this.todos.length; i++) {

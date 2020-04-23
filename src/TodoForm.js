@@ -1,23 +1,27 @@
+import TodoAdder from './TodoAdder';
+
 const TodoForm = ( existingTodo = null) => {
-  // title, description, dueDate, priority, project
+  let formType = 'add';
   let [title, description, dueDate, priority] = ['title', 'description', 'due date', 'priority'];
   if (existingTodo) {
-    // TODO: Make this not a heinous mess.
-    title = existingTodo.getTitle().getValue();
-    description = existingTodo.getDescription().getValue();
-    dueDate = existingTodo.getDueDate().getValue();
-    priority = existingTodo.getPriority().getValue();
+    title = existingTodo.getTitle();
+    description = existingTodo.getDescription();
+    dueDate = existingTodo.getDueDate();
+    priority = existingTodo.getPriority().toString();
+    formType = 'edit'
+    // TODO: pass along `completed` value (otherwise assumes it's incomplete)
   }
 
   const render = (project) => {
-    const container = document.createElement('form');
+    const container = document.createElement('div');
+    container.classList.add('form');
+    
     container.appendChild(FormElement('text', 'titleField', title).render());
     container.appendChild(FormElement('text', 'descriptionField', description).render());
     container.appendChild(FormElement('text', 'dueDateField', dueDate).render());
     container.appendChild(FormElement('text', 'priorityField', priority).render());
-    // container.appendChild(FormElement('text', 'projectField', ).render());
 
-    container.appendChild(SubmitButton(project).render());
+    container.appendChild(SubmitButton(project, formType).render());
 
     return container;
   }
@@ -64,33 +68,6 @@ const SubmitButton = (project, type = 'add') => {
   }
 }
 
-import Todo from './Todo';
-import TodoElement from './TodoElement';
-import View from './View';
 
-const TodoAdder = (() => {
-  // takes info from form
-  // creates new Todo
-  // adds it to project
-
-  const processForm = (project) => {
-    const title = document.getElementById('titleField').value;
-    const description = document.getElementById('descriptionField').value;
-    const dueDate = document.getElementById('dueDateField').value;
-    const priority = document.getElementById('priorityField').value;
-
-    // TODO: validate
-
-    const newTodo = new Todo(0, title, description, dueDate, priority, false);
-    // TODO: make above less horrible. Jesus.
-
-    project.addTodo(newTodo);
-    project.refresh();
-  }
-
-  return {
-    processForm,
-  }
-})();
 
 export default TodoForm;
