@@ -42,7 +42,7 @@ class Todo {
 
   toggleCompleted() {
     this.completed = !this.completed;
-    this.project.refresh();
+    this.project.refresh(); // TODO: move calls to this.project.refresh() to the eventlisteners so I stop accidentally adding them here and in the project.
   }
 
   deleteSelf() {
@@ -50,9 +50,7 @@ class Todo {
     this.project.refresh();
   }
   editSelf() {
-    // hacky way: delete and replace with a form
-    // TODO: temporarily hide and replace only when submitted. Also add a cancel button.
-    // tell project to rerender
+    // TODO: Also add a cancel button.
     this.renderMode = 'edit'
     this.project.refresh();
   }
@@ -83,20 +81,15 @@ class Todo {
 
       container.appendChild(element);
 
-      // delete
-      element = document.createElement('button');
-      element.classList.add('delete');
-      element.appendChild(IconInserter.render('delete'));
-      element.addEventListener('click', () => {
-        this.deleteSelf();
-      });
-      container.appendChild(element);
+      // MAIN INFO
+      let section = document.createElement('div');
+      section.classList.add('mainInfo');
 
       // title
       element = document.createElement('h2');
       element.textContent = this.title;
 
-      container.appendChild(element);
+      section.appendChild(element);
 
       // edit
       element = document.createElement('button');
@@ -105,7 +98,22 @@ class Todo {
       element.addEventListener('click', () => {
         this.editSelf();
       });
-      container.appendChild(element);
+      section.appendChild(element);
+
+      // delete
+      element = document.createElement('button');
+      element.classList.add('delete');
+      element.appendChild(IconInserter.render('delete'));
+      element.addEventListener('click', () => {
+        this.deleteSelf();
+      });
+      section.appendChild(element);
+
+      container.appendChild(section);
+
+      // DETAILS
+      section = document.createElement('div');
+      section.classList.add('details');
 
       // due date
       if (this.dueDate) {
@@ -117,22 +125,24 @@ class Todo {
         time.textContent = this.dueDate;
         element.appendChild(time);
         
-        container.appendChild(element);
+        section.appendChild(element);
       }
       // priority
       if (this.priority) {
-        element = document.createElement('p');
+        element = document.createElement('span');
         element.classList.add('priority');
         element.textContent = this.priority;
-        container.appendChild(element);
+        section.appendChild(element);
       }
       // description
       if (this.description) {
         element = document.createElement('p');
         element.classList.add('description');
         element.textContent = this.description;
-        container.appendChild(element);
+        section.appendChild(element);
       }
+
+      container.appendChild(section);
       
 
 

@@ -26,6 +26,7 @@ h1, h2, h3, h4, h5, h6, button {
 
 .project {
   flex: 1 1 400px;
+  height: min-content;
 
   background: white;
   border-radius: 5px;
@@ -80,18 +81,21 @@ h1, h2, h3, h4, h5, h6, button {
 
 .todo {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+  grid-template-columns: min-content 1fr;
 
   grid-gap: 0.5rem;
   align-items: baseline;
 
-  margin-bottom: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  padding-left: 0;
+  padding-right: 2rem;
 }
 .todo:hover {
-  /* margin-left: -1rem;
+  margin-left: -1rem;
   margin-right: -1rem;
   padding-left: 1rem;
-  padding-right: 1rem; */
+  padding-right: 3rem;
   /* TODO: get rid of above stupidity and replace parent padding with item margins */
   background-color: #eee;
 }
@@ -102,42 +106,57 @@ h1, h2, h3, h4, h5, h6, button {
 }
 
 .todo button {
-  /* border: none; */
   background: none;
   cursor: pointer;
   width: min-content;
-  margin: 0 auto;
   padding: 0.5rem;
-  align-self: top;
 }
 
 .todo .completed {
-  
-  grid-row: 1 / 5; /* TODO: make less hacky, maybe */
+  grid-row: 1 / 3; /* TODO: make less hacky, maybe */
+  /* TODO: line up with h1 and other buttons */
 }
+
+.todo .mainInfo {
+  display: flex;
+  align-items: center;
+}
+
+.todo .mainInfo .edit {
+  margin-left: auto;
+}
+
+.todo .details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.todo .details .description {
+  width: 100%;
+}
+
+
 .todo .unchecked > img {
   opacity: 10%;
 }
 
-.todo .delete {
-
+.todo .edit, .todo .delete {
+  border: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+.todo:hover .edit, .todo:hover .delete {
+  opacity: 100%;
+  visibility: visible;
 }
 
-.todo h2 {
-  grid-column-end: span 2;
-}
 .todo time {
   padding-left: 0.5rem;
 }
 .todo .description {
-  grid-column-start: 2;
-  grid-column-end: -1;
 
   font-size: 0.875rem;
   color: #777777;
   font-style: italic;
-}
-
-.todo .dueDate, .todo .priority {
-  text-align: right;
 }
