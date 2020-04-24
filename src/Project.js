@@ -2,12 +2,11 @@ import View from './View';
 import App from './App';
 
 class Project {
-  constructor (id, title, description, sortOrder = 0, todos = []) {
+  constructor (title, description) {
     this.id = App.incrementProjectId();
     this.title = title;
     this.description = description;
-    this.sortOrder = sortOrder;
-    this.todos = todos;
+    this.todos = [];
   }
 
   getId() { return this.id; }
@@ -25,12 +24,6 @@ class Project {
     todo.setProject(this);
     this.todos.push(todo);
 
-  }
-
-  editTodo (todoId) {
-    // find it
-    const todoToEdit = this.getTodoById(todoId);
-    
   }
 
   getTodoById(todoId) {
@@ -63,23 +56,33 @@ class Project {
   }
 
   render () {
-    // TODO: consider cleaning this up with something like ToDoElement
     const container = document.createElement('div');
     container.classList.add('projectList');
+
     // header
-    const header = document.createElement('h1');
-    header.textContent = this.title;
-    container.appendChild(header);
+    const header = document.createElement('header');
+    const title = document.createElement('h1');
+    title.textContent = this.title;
+    header.appendChild(title);
 
     const todoCount = document.createElement('span');
     todoCount.textContent = `${this.todos.length.toString()} item${(this.todos.length !== 1) ? 's' : ''}`;
-    container.appendChild(todoCount);
+    header.appendChild(todoCount);
+
+    const description = document.createElement('p');
+    description.classList.add('description');
+    description.textContent = this.description;
+    header.appendChild(description);
+
+    container.appendChild(header);
 
     // add each todo
     for (let i=0; i<this.todos.length; i++) {
       // add each todo
       container.appendChild(this.todos[i].render());
     }
+
+    
 
     return container;
     

@@ -162,7 +162,7 @@ h1, h2, h3, h4, h5, h6, button {
 .todo time {
   padding-left: 0.5rem;
 }
-.todo .description {
+.description {
 
   font-size: 0.875rem;
   color: #777777;
