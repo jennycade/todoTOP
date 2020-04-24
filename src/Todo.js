@@ -1,10 +1,11 @@
 import Project from "./Project";
 import IconInserter from "./IconInserter";
 import TodoForm from './TodoForm';
+import App from './App';
 
 class Todo {
   constructor (id, title, description, dueDate, priority, completed, project = null) {
-    this.id = id;
+    this.id = App.incrementTodoId();
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -52,6 +53,20 @@ class Todo {
   editSelf() {
     // TODO: Also add a cancel button.
     this.renderMode = 'edit'
+    this.project.refresh();
+  }
+  update(title, description, dueDate, priority) {
+    this.setTitle(title);
+    this.setDescription(description);
+    this.setDueDate(dueDate);
+    this.setPriority(priority);
+
+    this.renderMode = 'display';
+    this.project.refresh();
+  }
+
+  cancelEdit() {
+    this.renderMode = 'display';
     this.project.refresh();
   }
 

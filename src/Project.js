@@ -1,14 +1,16 @@
 import View from './View';
+import App from './App';
 
 class Project {
   constructor (id, title, description, sortOrder = 0, todos = []) {
-    this.id = id;
+    this.id = App.incrementProjectId();
     this.title = title;
     this.description = description;
     this.sortOrder = sortOrder;
     this.todos = todos;
   }
 
+  getId() { return this.id; }
   setTitle (newTitle) {
     this.title = newTitle;
   }
@@ -22,9 +24,26 @@ class Project {
   addTodo (todo) {
     todo.setProject(this);
     this.todos.push(todo);
-    // this.refresh(); // was this originally here or not?
 
   }
+
+  editTodo (todoId) {
+    // find it
+    const todoToEdit = this.getTodoById(todoId);
+    
+  }
+
+  getTodoById(todoId) {
+    let toReturn = false;
+    for (let i=0; i<this.todos.length; i++) {
+      if (todoId === this.todos[i].id) {
+        toReturn = this.todos[i];
+        break;
+      }
+    }
+    return toReturn;
+  }
+
   removeTodo (todo) {
     // find it in the list
     let toreturn = false;

@@ -2,17 +2,27 @@ import Todo from './Todo';
 
 const TodoAdder = (() => {
 
-  const processForm = (project) => { // TODO: add edit
-    const title = document.getElementById('titleField').value;
-    const description = document.getElementById('descriptionField').value;
-    const dueDate = document.getElementById('dueDateField').value;
-    const priority = document.getElementById('priorityField').value;
+  const processForm = (project, todoId = null) => {
+    let suffix = 'p' + project.getId().toString();
+    if (todoId) {
+      suffix = todoId.toString();
+    }
+    
+    const title = document.getElementById('titleField' + suffix).value;
+    const description = document.getElementById('descriptionField' + suffix).value;
+    const dueDate = document.getElementById('dueDateField' + suffix).value;
+    const priority = document.getElementById('priorityField' + suffix).value;
 
     // TODO: validate
 
-    const newTodo = new Todo(0, title, description, dueDate, priority, false);
-
-    project.addTodo(newTodo);
+    if (!todoId) {
+      const newTodo = new Todo(0, title, description, dueDate, priority, false);
+      project.addTodo(newTodo);
+    } else {
+      // tell the project to edit the todo?
+      const todo = project.getTodoById(todoId);
+      todo.update(title, description, dueDate, priority);
+    }
     project.refresh();
   }
 
