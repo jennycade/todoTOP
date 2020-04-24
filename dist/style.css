@@ -63,7 +63,7 @@ h1, h2, h3, h4, h5, h6, button {
   background: linear-gradient(#6064ff, #3539e6
   );
   color: white;
-  border: none;
+  border: 1px solid #0004b5;
   border-radius: 3px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 
@@ -72,6 +72,14 @@ h1, h2, h3, h4, h5, h6, button {
 }
 .form button:hover {
   background: #0004b5;
+  border: 1px solid #0004b5;
+  color: white;
+}
+
+.form .cancel {
+  background: none;
+  color: inherit;
+  border: 1px solid #eee;
 }
 
 .icon {
