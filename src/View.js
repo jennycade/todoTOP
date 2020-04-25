@@ -1,14 +1,27 @@
 import TodoForm from './TodoForm';
 import Project from './Project';
 import App from './App';
+import ProjectForm from './ProjectForm';
 
 const View = (() => {
-  let appDiv;
+  let appDiv, addProjectForm;
+
+  const setAddProjectForm = (newForm) => {
+    addProjectForm = newForm;
+  }
+
+  const loadAddProjectForm = () => {
+    if (!appDiv) { loadView(); }
+    if (!addProjectForm) {
+      addProjectForm = new ProjectForm();
+    }
+    appDiv.appendChild(addProjectForm.render());
+  }
   
   const loadView = () => {
-    // console.log('Loading view');
     appDiv = document.getElementById('app');
-    // console.log(appDiv);
+
+    
   } 
 
   const loadNewForm = (project) => {
@@ -40,6 +53,8 @@ const View = (() => {
   }
 
   return {
+    setAddProjectForm,
+    loadAddProjectForm,
     loadView,
     loadNewForm,
     loadProject,

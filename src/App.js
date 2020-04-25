@@ -11,6 +11,7 @@ const App = (() => {
   }
 
   const loadApp = () => {
+    View.loadAddProjectForm();
     for (let i=0; i < projects.length; i++) {
       View.loadProject(projects[i]);
     }
