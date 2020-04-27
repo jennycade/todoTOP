@@ -81,7 +81,7 @@ h1, h2, h3, h4, h5, h6, button {
 }
 
 .form .cancel {
-  background: none;
+  background: white;
   color: inherit;
   border: 1px solid #eee;
 }

@@ -1,11 +1,13 @@
 import Project from './Project';
 import IconInserter from './IconInserter';
 import View from './View';
+import App from './App';
 
-class ProjectForm {
+class ProjectForm { // TODO: generalize this and use it for todos too
   constructor(project = null, displayMode = 'addButton') {
     this.project = project;
     this.displayMode = displayMode;
+    this.prefix = 'project';
     this.suffix = 'new';
     if (project) {
       this.suffix = project.getId();
@@ -25,29 +27,67 @@ class ProjectForm {
 
     container.addEventListener('click', () => {
       this.displayMode = 'form';
-      View.setAddProjectForm(this);
-      View.refreshView();
+      this.sendViewRefresh();
     })
 
     return container;
 
   }
 
-  renderForm() {
-    const container = document.createElement('form');
 
-    let field = new TextField('title', 'project', this.suffix);
-    field.appendToContainer(container);
+  renderForm() {
+    const container = document.createElement('div');
+    container.classList.add('form');
+    container.classList.add('addProject');
+
+
+    let element = new TextField('title', this.prefix, this.suffix);
+    element.appendToContainer(container);
+
+    element = new TextField('description', this.prefix, this.suffix);
+    element.appendToContainer(container);
+
+    element = new Button('cancel', () => {this.cancelForm()}, ['cancel']);
+    element.appendToContainer(container);
+
+    element = new Button('add', () => {this.addProject()});
+    element.appendToContainer(container);
+
 
     return container;
   }
 
-  addProject() {
+  cancelForm() {
+    if (this.project) {
+      // tell the project to render as display again
+      console.log('cancelForm() with this.project set');
+    } else {
+      this.displayMode = 'addButton';
+    }
+    this.sendViewRefresh();
+  }
 
+  addProject() {
+    let fieldId = camelConcat(this.prefix, 'title', this.suffix);
+    const title = document.getElementById(fieldId).value; // TODO: generalize this for all Forms
+    fieldId = camelConcat(this.prefix, 'description', this.suffix);
+    const description = document.getElementById(fieldId).value;
+
+    if (this.project) {
+      this.updateProject(title, description);
+    } else {
+      App.addProject(new Project(title, description));
+    }
+    this.sendViewRefresh();
   }
 
   updateProject() {
+    console.log('update the project')
+  }
 
+  sendViewRefresh() {
+    View.setAddProjectForm(this);
+    View.refreshView();
   }
 
   render() {
@@ -66,7 +106,7 @@ class TextField {
     this.id = this.camelConcat(prefix, name, suffix);
   }
 
-  camelConcat() {
+  camelConcat() { // TODO: decide which namespace this should live in!
     if (arguments.length < 2) return arguments;
   
     let newString = arguments[0];
@@ -102,5 +142,51 @@ class TextField {
 
 }
 
+class Button {
+  constructor(text, action = null, classes = null) {
+    this.text = text;
+    if (action) {
+      this.action = action;
+    }
+    if (classes) {
+      this.classes = classes;
+    }
+  }
+
+  renderButton() {
+    const button = document.createElement('button');
+    button.textContent = this.text;
+    if (this.action) {
+      button.addEventListener('click', () => {
+        this.action();
+      });
+    }
+    if (this.classes) {
+      for (let i=0; i<this.classes.length; i++) {
+        button.classList.add(this.classes[i]);
+      }
+    }
+
+    return button;
+  }
+
+  appendToContainer(container) {
+    const button = this.renderButton();
+    container.appendChild(button);
+  }
+}
+
+function camelConcat() {
+  if (arguments.length < 2) return arguments;
+
+  let newString = arguments[0];
+  for (let i=1; i<arguments.length; i++) {
+    newString += arguments[i].slice(0, 1).toUpperCase();
+    newString += arguments[i].slice(1);
+  }
+  return newString;
+}
+
+window.camelConcat = camelConcat;
 
 export default ProjectForm;

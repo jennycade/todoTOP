@@ -1,0 +1,8 @@
+index.js:37 App.loadApp();
+App.js:14   View.loadAddProjectForm();
+View.js:16  View.loadView();
+View.js:24  `appDiv = document.getElementById('app');`
+View.js:18  new ProjectForm();
+
+
+View.js:21  addProjectForm.render();

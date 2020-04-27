@@ -6,36 +6,27 @@ import View from './View';
 import App from './App';
 
 // testing
-const testProject = new Project('Home', 'Around the house', );
-const testProject2 = new Project('Web Dev', 'Javascript projects', )
+// const testProject = new Project('Home', 'Around the house', );
+// const testProject2 = new Project('Web Dev', 'Javascript projects', )
 
-App.addProject(testProject);
-App.addProject(testProject2);
+// App.addProject(testProject);
+// App.addProject(testProject2);
 
-// const test = Todo(
+// const test = new Todo(
 //   0,
-//   TodoElement('Make a todo app', 'string', 'h2', ''),
-//   TodoElement('Make a JavaScript app that fulfills the requirements for The Odin Project\'s Todo App project.', 'string', 'p', ''),
-//   TodoElement('today', 'string', 'p', 'Due: '),
-//   TodoElement(5, 'string', 'p', 'Priority: '),
-//   TodoElement(false, 'checkbox', 'input', ''),
+//   'Make a todo app',
+//   'Make a Javascript app that fulfills the requirements for The Odin Project\'s Todo App project.',
+//   'today',
+//   5,
+//   true,
 // );
 
-const test = new Todo(
-  0,
-  'Make a todo app',
-  'Make a Javascript app that fulfills the requirements for The Odin Project\'s Todo App project.',
-  'today',
-  5,
-  true,
-);
 
 
 
+// testProject.addTodo(test);
 
-testProject.addTodo(test);
-
-window.View = View;
+// window.View = View;
 
 
 

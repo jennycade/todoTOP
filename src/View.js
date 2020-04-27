@@ -15,6 +15,7 @@ const View = (() => {
     if (!addProjectForm) {
       addProjectForm = new ProjectForm();
     }
+    
     appDiv.appendChild(addProjectForm.render());
   }
   
