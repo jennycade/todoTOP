@@ -27,7 +27,7 @@ import App from './App';
 // testProject.addTodo(test);
 
 // window.View = View;
-
+window.App = App;
 
 
 

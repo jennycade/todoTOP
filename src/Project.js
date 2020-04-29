@@ -1,5 +1,6 @@
 import View from './View';
 import App from './App';
+import ProjectForm from './ProjectForm';
 
 class Project {
   constructor (title, description) {
@@ -7,9 +8,13 @@ class Project {
     this.title = title;
     this.description = description;
     this.todos = [];
+    this.displayMode = 'display';
   }
 
   getId() { return this.id; }
+  getTitle() { return this.title; }
+  getDescription() { return this.description; }
+
   setTitle (newTitle) {
     this.title = newTitle;
   }
@@ -18,6 +23,23 @@ class Project {
   }
   setSortOrder (newSortOrder) {
     this.sortOrder = newSortOrder;
+  }
+  setDisplayMode(newDisplayMode) {
+    this.displayMode = newDisplayMode;
+  }
+
+  saveProject() {
+    let projectToSave = {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      todos: [],
+    }
+    for (let i=0; i<this.todos.length; i++) {
+      projectToSave.todos.push(this.todos[i].saveTodo());
+    }
+    return JSON.stringify(projectToSave);
+
   }
   
   addTodo (todo) {
@@ -51,6 +73,10 @@ class Project {
     return toreturn;
   }
 
+  deleteSelf() {
+    App.removeProject(this);
+  }
+
   refresh () {
     View.refreshView(); // TODO: refresh single project
   }
@@ -61,18 +87,32 @@ class Project {
 
     // header
     const header = document.createElement('header');
-    const title = document.createElement('h1');
-    title.textContent = this.title;
-    header.appendChild(title);
 
-    const todoCount = document.createElement('span');
-    todoCount.textContent = `${this.todos.length.toString()} item${(this.todos.length !== 1) ? 's' : ''}`;
-    header.appendChild(todoCount);
+    if (this.displayMode === 'display') {
+      const title = document.createElement('h1');
+      title.textContent = this.title;
 
-    const description = document.createElement('p');
-    description.classList.add('description');
-    description.textContent = this.description;
-    header.appendChild(description);
+      header.appendChild(title);
+
+      const todoCount = document.createElement('span');
+      todoCount.textContent = `${this.todos.length.toString()} item${(this.todos.length !== 1) ? 's' : ''}`;
+      header.appendChild(todoCount);
+
+      const description = document.createElement('p');
+      description.classList.add('description');
+      description.textContent = this.description;
+      header.appendChild(description);
+
+      // bring up edit form when clicking the header
+      header.classList.add('clickable');
+      header.addEventListener('click', () => {
+        this.form = new ProjectForm(this, 'form');
+        this.displayMode = 'form';
+        this.refresh();
+      });
+    } else if (this.displayMode === 'form') {
+      container.appendChild(this.form.render());
+    }
 
     container.appendChild(header);
 

@@ -4,7 +4,7 @@ import TodoForm from './TodoForm';
 import App from './App';
 
 class Todo {
-  constructor (id, title, description, dueDate, priority, completed, project = null) {
+  constructor (title, description, dueDate, priority, completed, project = null) {
     this.id = App.incrementTodoId();
     this.title = title;
     this.description = description;
@@ -39,6 +39,18 @@ class Todo {
   }
   setProject(newProject) {
     this.project = newProject;
+  }
+
+  saveTodo() {
+    let todoToSave = { // need to save project too?
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      dueDate: this.dueDate,
+      priority: this.priority,
+      completed: this.completed,
+    }
+    return JSON.stringify(todoToSave);
   }
 
   toggleCompleted() {

@@ -9,8 +9,16 @@ class ProjectForm { // TODO: generalize this and use it for todos too
     this.displayMode = displayMode;
     this.prefix = 'project';
     this.suffix = 'new';
+    this.defaults = {
+      title: '',
+      description: '',
+    };
     if (project) {
-      this.suffix = project.getId();
+      this.suffix = project.getId().toString();
+      this.defaults = {
+        title: project.getTitle(),
+        description: project.getDescription(),
+      };
     }
   }
 
@@ -41,16 +49,23 @@ class ProjectForm { // TODO: generalize this and use it for todos too
     container.classList.add('addProject');
 
 
-    let element = new TextField('title', this.prefix, this.suffix);
+    const titleField = new TextField('title', this.prefix, this.suffix, this.defaults.title);
+    titleField.appendToContainer(container);
+
+    const descriptionField = new TextField('description', this.prefix, this.suffix, this.defaults.description);
+    descriptionField.appendToContainer(container);
+
+    let element = new Button('cancel', () => {this.cancelForm()}, ['cancel']);
     element.appendToContainer(container);
 
-    element = new TextField('description', this.prefix, this.suffix);
-    element.appendToContainer(container);
+    let submitButtonText = 'add';
+    if (this.project) {
+      element = new Button('delete', () => {this.deleteProject()}, ['delete']);
+      element.appendToContainer(container);
+      submitButtonText = 'edit';
+    }
 
-    element = new Button('cancel', () => {this.cancelForm()}, ['cancel']);
-    element.appendToContainer(container);
-
-    element = new Button('add', () => {this.addProject()});
+    element = new Button(submitButtonText, () => {this.addProject()});
     element.appendToContainer(container);
 
 
@@ -60,16 +75,25 @@ class ProjectForm { // TODO: generalize this and use it for todos too
   cancelForm() {
     if (this.project) {
       // tell the project to render as display again
-      console.log('cancelForm() with this.project set');
+      this.project.setDisplayMode('display');
     } else {
       this.displayMode = 'addButton';
     }
     this.sendViewRefresh();
   }
 
+  deleteProject() {
+    this.project.deleteSelf();
+    this.displayMode = 'hidden';
+    this.sendViewRefresh(); // is this not working? START HERE 
+  }
+
   addProject() {
     let fieldId = camelConcat(this.prefix, 'title', this.suffix);
-    const title = document.getElementById(fieldId).value; // TODO: generalize this for all Forms
+    let title = document.getElementById(fieldId).value; // TODO: generalize this for all Forms
+    if (title === '') {
+      title = '(unnamed project)';
+    }
     fieldId = camelConcat(this.prefix, 'description', this.suffix);
     const description = document.getElementById(fieldId).value;
 
@@ -81,12 +105,17 @@ class ProjectForm { // TODO: generalize this and use it for todos too
     this.sendViewRefresh();
   }
 
-  updateProject() {
-    console.log('update the project')
+  updateProject(title, description) {
+    this.project.setTitle(title);
+    this.project.setDescription(description);
+    this.project.setDisplayMode('display');
+    this.sendViewRefresh();
   }
 
   sendViewRefresh() {
-    View.setAddProjectForm(this);
+    if (this.suffix === 'new') { 
+      View.setAddProjectForm(this);
+    }
     View.refreshView();
   }
 
@@ -95,26 +124,18 @@ class ProjectForm { // TODO: generalize this and use it for todos too
       return this.renderAddButton();
     } else if (this.displayMode === 'form') {
       return this.renderForm();
+    } else if (this.displayMode === 'hidden') {
+      return false;
     }
   }
 }
 
 
 class TextField {
-  constructor(name, prefix = '', suffix = '') {
+  constructor(name, prefix = '', suffix = '', value = '') {
     this.name = name;
-    this.id = this.camelConcat(prefix, name, suffix);
-  }
-
-  camelConcat() { // TODO: decide which namespace this should live in!
-    if (arguments.length < 2) return arguments;
-  
-    let newString = arguments[0];
-    for (let i=1; i<arguments.length; i++) {
-      newString += arguments[i].slice(0, 1).toUpperCase();
-      newString += arguments[i].slice(1);
-    }
-    return newString;
+    this.id = camelConcat(prefix, name, suffix);
+    this.value = value.toString(); // TODO: any reason to make this null when not specified?
   }
 
   renderLabel() {
@@ -129,6 +150,7 @@ class TextField {
     field.setAttribute('type', 'text');
     field.setAttribute('id', this.id);
     field.setAttribute('name', this.id);
+    field.setAttribute('value', this.value);
     return field;
   }
   render() {
@@ -176,7 +198,7 @@ class Button {
   }
 }
 
-function camelConcat() {
+function camelConcat() { // TODO: decide which namespace this should live in!
   if (arguments.length < 2) return arguments;
 
   let newString = arguments[0];

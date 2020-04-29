@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5, h6, button {
   flex-wrap: wrap;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .addProject {
   width: 100%;
 }
@@ -84,6 +88,11 @@ h1, h2, h3, h4, h5, h6, button {
   background: white;
   color: inherit;
   border: 1px solid #eee;
+}
+.form .delete {
+  background: red;
+  color: white;
+  border: 1px solid red;
 }
 
 .icon {

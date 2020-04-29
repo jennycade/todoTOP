@@ -1,8 +1,9 @@
-index.js:37 App.loadApp();
-App.js:14   View.loadAddProjectForm();
-View.js:16  View.loadView();
-View.js:24  `appDiv = document.getElementById('app');`
-View.js:18  new ProjectForm();
+index.js:37   App.loadApp();
+App.js:14     View.loadAddProjectForm();
+View.js:16    View.loadView();
+View.js:24    `appDiv = document.getElementById('app');`
+View.js:18    new ProjectForm();
+ProjectForm:6 OMFG NO THIS IS FINE
 
 
-View.js:21  addProjectForm.render();
+View.js:21    addProjectForm.render();

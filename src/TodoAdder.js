@@ -16,7 +16,7 @@ const TodoAdder = (() => {
     // TODO: validate
 
     if (!todoId) {
-      const newTodo = new Todo(0, title, description, dueDate, priority, false);
+      const newTodo = new Todo(title, description, dueDate, priority, false);
       project.addTodo(newTodo);
     } else {
       // tell the project to edit the todo?
