@@ -4,7 +4,7 @@
   "description": "Todo app for The Odin Project",
   "main": "index.js",
   "dependencies": {
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack": "^4.42.0"
   },
   "devDependencies": {},
